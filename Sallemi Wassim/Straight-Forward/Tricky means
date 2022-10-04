@@ -1,0 +1,36 @@
+#include <bits/stdc++.h>
+
+#define ll long long
+#define min(u,v)(((u)<(v)) ? (u) : (v))
+#define max(u,v)(((u)>(v)) ? (u) : (v))
+#define mp make_pair
+#define endl '\n'
+#define pb push_back
+
+using namespace std;
+
+
+
+int main()
+{
+    int t;
+    cin >> t;
+    while(t--)
+    {
+        double n;
+        cin >> n;
+        double A = 0,G = 1, H, x = 0, a;
+        for(int i =0; i<n; i++)
+        {
+            cin >> a;
+            A += a;
+            G *= a;
+            x += 1/a;
+        }
+        H = n/x;
+        A = A /n;
+        G = pow(G, 1/n);
+        cout <<fixed<<setprecision(9)<< A << " " << G<<" "<<H << endl;
+    }
+    return 0;
+}
