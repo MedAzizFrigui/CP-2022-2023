@@ -1,0 +1,45 @@
+#include <bits/stdc++.h>
+
+#define ll long long
+#define min(u,v)(((u)<(v)) ? (u) : (v))
+#define max(u,v)(((u)>(v)) ? (u) : (v))
+#define mp make_pair
+#define endl '\n'
+#define pb push_back
+
+
+using namespace std;
+
+const int n = 1000000;
+int self[n];
+
+int main()
+{
+    int t;
+    cin >>  t;
+    while(t--)
+    {
+        double x, y, z;
+        cin >> x >> y >> z;
+        bool a=false, g=false;
+        if(x!=0 && y !=0)
+        {
+            g = (z/y) == (y/x);
+        }
+        else
+        {
+            g = (x==y) && (y==z);
+        }
+        a = (z-y) == (y-x);
+        if(a&&g)
+            cout << "Both"<<endl;
+        else if (a)
+            cout << "Arithmetic"<<endl;
+        else if (g)
+            cout << "Geometric"<<endl;
+        else
+            cout << "None"<<endl;
+    }
+    return 0;
+
+}
