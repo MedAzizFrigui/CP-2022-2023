@@ -19,17 +19,17 @@ int main()
     {
         double n;
         cin >> n;
-        double A = 0,G = 1, H, x = 0, a;
+        double A = 0.0l,G = 1.0l, H, x = 0.0l, a;
         for(int i =0; i<n; i++)
         {
             cin >> a;
             A += a;
             G *= a;
-            x += 1/a;
+            x += 1.0l/a;
         }
         H = n/x;
         A = A /n;
-        G = pow(G, 1/n);
+        G = pow(G, 1.0l/n);
         cout <<fixed<<setprecision(9)<< A << " " << G<<" "<<H << endl;
     }
     return 0;
