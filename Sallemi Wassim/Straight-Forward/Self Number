@@ -10,13 +10,14 @@
 
 using namespace std;
 
-const int n = 1000000;
-int self[n];
+const size_t n = 1000000; // size_t its max is the max of array in   the used compilator : limit of compiler
+int self[n+100];
 
 int main()
 {
-    for(int i=0; i<n+100; i++)
-        self[i] = 1;
+    ios_base::sync_with_studio(false);
+    cin.tie(nullptr);
+    fill_n(self, n+100, 1);
     for(int i=1; i<=n; i++)
     {
         string s = to_string(i);
