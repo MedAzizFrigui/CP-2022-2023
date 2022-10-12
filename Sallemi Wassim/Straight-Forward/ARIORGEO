@@ -17,7 +17,7 @@ int main()
     freopen("output/progression-myOut.txt", "w", stdout);
     int t;
     cin >>  t;
-    while(t--)
+    while(t--) // NEVER CONTINUE IN FOR
     {
         double x, y, z;
         cin >> x >> y >> z;
