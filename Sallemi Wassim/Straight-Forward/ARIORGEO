@@ -9,12 +9,12 @@
 
 
 using namespace std;
-
-const int n = 1000000;
-int self[n];
+const double eps = numeric_limits<double>::epsilon();
 
 int main()
 {
+    freopen("input/progression-in.txt", "r", stdin);
+    freopen("output/progression-myOut.txt", "w", stdout);
     int t;
     cin >>  t;
     while(t--)
@@ -22,13 +22,16 @@ int main()
         double x, y, z;
         cin >> x >> y >> z;
         bool a=false, g=false;
-        if(x!=0 && y !=0)
+        if(x!=0.0 && y !=0.0)
         {
-            g = (z/y) == (y/x);
+            g = (((z/y) - (y/x)) < eps) && (((z/y) - (y/x)) > -eps) ;
+            if(!g){
+                g = (((y/z) - (x/y)) < eps) && (((y/z) - (x/y)) > -eps) ;
+            }
         }
         else
         {
-            g = (x==y) && (y==z);
+            g = ((x-y) < eps && (x-y) > -eps) && ((y-z) < eps && (y-z) > -eps);
         }
         a = (z-y) == (y-x);
         if(a&&g)
