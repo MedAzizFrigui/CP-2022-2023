@@ -1,0 +1,90 @@
+#include <bits/stdc++.h>
+
+#define ll long long
+#define min(u,v)(((u)<(v)) ? (u) : (v))
+#define max(u,v)(((u)>(v)) ? (u) : (v))
+#define mp make_pair
+#define endl '\n'
+#define pb push_back
+
+
+
+using namespace std;
+const double eps = numeric_limits<double>::epsilon();
+const int N = 1e9+1;
+
+unordered_map<int, int> parent;
+
+
+int findParent(int i)
+{
+    if(i == parent[i]){
+        return i;
+    }
+    else{
+        return findParent(parent[i]);
+    }
+}
+
+
+void unionSets(int i, int j){
+    int irep = findParent(i);
+    int jrep = findParent(j);
+    parent[irep] = jrep;
+}
+
+
+
+int main()
+{
+//    freopen("input/progression-in.txt", "r", stdin);
+//    freopen("output/progression-myOut.txt", "w", stdout);
+
+    int n, m, a, b;
+    cin >> n >> m;
+    int friends = 0;
+
+    for(int i=0; i<m; ++i)
+    {
+
+        cin >> a >> b;
+
+        //if both a and b exist
+        if(parent[b] && parent[a])
+        {
+            unionSets(b, a);
+        }
+
+        //if a already exists and b don't
+        else if(parent[a])
+        {
+            friends ++;
+            parent[b] = b;
+            unionSets(b, a);
+        }
+
+        //else if b already exists and a don't
+        else if(parent[b])
+        {
+            friends ++;
+            parent[a] = a;
+            unionSets(a, b);
+        }
+        // else if both a and b don't exist
+        else
+        {
+            friends += 2;
+            parent[a] = a;
+            parent[b] = b;
+            unionSets(b, a);
+        }
+    }
+
+    int nb = 0;
+    for(auto p : parent)
+        if(p.second == p.first)
+            nb++;
+    cout << n-friends+nb;
+
+ return 0;
+}
