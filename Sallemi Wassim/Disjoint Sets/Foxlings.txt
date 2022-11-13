@@ -1,0 +1,79 @@
+#include <iostream>
+#include <algorithm>
+
+#define ll long long
+#define min(u,v)(((u)<(v)) ? (u) : (v))
+#define max(u,v)(((u)>(v)) ? (u) : (v))
+#define mp make_pair
+#define endl '\n'
+#define pb push_back
+#define fast ios_base::sync_with_stdio(false); cin.tie(nullptr);
+
+using namespace std;
+const double eps = numeric_limits<double>::epsilon();
+const size_t N_MAX = 1<<30;
+
+
+//array
+class disjointSets{
+    size_t* parent=new size_t[N_MAX];
+    size_t* sz=new size_t[N_MAX];
+    size_t nbrSets;
+public:
+    disjointSets(size_t n):nbrSets(n){
+       for(size_t i=0u;i<nbrSets;++i){
+            parent[i] = i;
+            sz[i] = 1u;
+       }
+    }
+
+    size_t find(size_t e){
+        return parent[e]==e?e:parent[e]=find(parent[e]);
+    }
+
+    bool merge(size_t x , size_t y){
+        size_t px = find(x);
+        size_t py = find(y);
+        if(px==py){
+            return false;
+        }
+        if(sz[px]>sz[py]){
+            swap(px,py);
+        }
+        parent[px]=py;
+        sz[py]+=sz[px];
+        sz[px]=0u;
+        --nbrSets;
+        return true;
+    }
+
+    size_t sizeOfSet(size_t x){
+        return sz[find(x)];
+    }
+
+    size_t nbrOfSets(){
+        return nbrSets;
+    }
+
+    bool sameSet(size_t x,size_t y){
+        return find(x)==find(y) ;
+    }
+};
+
+
+
+int main(void)
+{
+
+    size_t n, m, a, b;
+    cin >> n >> m;
+
+    disjointSets sets = disjointSets(2*m);
+    for(int i=0;i<m;++i){
+        cin >> a >> b;
+        sets.merge(a-1, b-1);
+    }
+    cout << n-2*m+sets.nbrOfSets();
+
+ return 0;
+}
