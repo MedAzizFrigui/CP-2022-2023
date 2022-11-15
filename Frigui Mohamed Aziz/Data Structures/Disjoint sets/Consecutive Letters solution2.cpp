@@ -41,7 +41,7 @@ public:
 			 return false;
 		 }
 		 
-		 if(a>b){
+		 if(sz[a]<sz[b]){
 			 swap(a,b);
 		 }
 		 
@@ -69,37 +69,76 @@ public:
 	}	 
  };
  
-
+bool infected[200007];
  
  void solve(){
 	
+	string s; cin>>s;
+	int n=s.size();
 	
+	int q; cin>>q;
 	
-	disjointSets ds(26);
+	vector<pair<int,int>>query;
 	
-	for(int i=0;i<a.size();i++){
-		ds.union_sets(a[i]-'a',b[i]-'a');
+	for(int i=0;i<q;i++){
+		int t,pos; cin>>t>>pos;
+		if(t==2) infected[pos]=true;
+		
+		query.pb({t,pos});
 	}
 	
-	string ans="";
+	reverse(query.begin(),query.end());
 	
-	for(int i=0;i<c.size();i++){
-		ans+=ds.find_set(c[i]-'a')+'a';
+	disjointSets ds(n);
+	
+	for(int i=0;i<n-1;i++){
+		if(infected[i]) continue;
+		if(s[i]==s[i+1] && !infected[i+1]){
+			
+		ds.union_sets(i,i+1);
+		}
 	}
-	cout<<ans<<endl;
+	
+	vector<int>ans;
+	
+	for(int i=0;i<q;i++){
+		int t=query[i].f;
+		int pos=query[i].s;
+		
+		if(t==1){
+			ans.pb(ds.sizeOfSets(pos));
+		}else{
+			infected[pos]=0;
+			if(pos+1<n && s[pos]==s[pos+1] && !infected[pos+1]){
+				ds.union_sets(pos,pos+1);
+			}
+			if(pos-1>=0 && s[pos-1]==s[pos] && !infected[pos-1]){
+				ds.union_sets(pos,pos-1);
+			}
+		}
+	}
+	
+	reverse(ans.begin(),ans.end());
+	
+	for(auto u:ans){
+		cout<<u<<endl;
+	}
+	
+				
+			
 	
  }
  
-
+ 
 int main(void){
-	// FAST;
-	int t=1;
-	// cin>>t;
+	FAST;
+	int t;
+	cin>>t;
 	int nb=1;
 	while(t--){
-		// cout<<"Case "<<nb<<":"<<endl;
+		cout<<"Case "<<nb<<":"<<endl;
 		solve();
 		nb++;
 	}
 	return 0;
-}
+} 
