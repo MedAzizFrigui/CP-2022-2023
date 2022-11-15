@@ -73,7 +73,7 @@ public:
  
  void solve(){
 	
-	
+	string a,b,c; cin>>a>>b>>c;
 	
 	disjointSets ds(26);
 	
