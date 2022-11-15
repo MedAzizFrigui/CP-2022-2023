@@ -1,0 +1,100 @@
+#include <iostream>
+#include <algorithm>
+#include <vector>
+#include <unordered_map>
+#define ll long long
+#define min(u,v)(((u)<(v)) ? (u) : (v))
+#define max(u,v)(((u)>(v)) ? (u) : (v))
+#define mp make_pair
+#define endl '\n'
+#define pb push_back
+#define fast ios_base::sync_with_stdio(false); cin.tie(nullptr);
+
+using namespace std;
+const double eps = numeric_limits<double>::epsilon();
+const size_t N_MAX = 1<<24;
+
+
+//array
+class disjointSets{
+    size_t* parent=new size_t[N_MAX];
+    size_t* sz=new size_t[N_MAX];
+    size_t nbrSets;
+public:
+    disjointSets(size_t n):nbrSets(n){
+       for(size_t i=0u;i<nbrSets;++i){
+            parent[i] = i;
+            sz[i] = 1u;
+       }
+    }
+
+    size_t find(size_t e){
+        return parent[e]==e?e:parent[e]=find(parent[e]);
+    }
+
+    bool merge(size_t x , size_t y){
+        size_t px = find(x);
+        size_t py = find(y);
+        if(px==py){
+            return false;
+        }
+        if(sz[px]>sz[py]){
+            swap(px,py);
+        }
+        parent[px]=py;
+        sz[py]+=sz[px];
+        sz[px]=0u;
+        --nbrSets;
+        return true;
+    }
+
+    bool sameSet(size_t x,size_t y){
+        return find(x)==find(y) ;
+    }
+    size_t nbrOfSets(){
+        return nbrSets;
+    }
+    bool isParent(size_t x){
+        return find(x)==x;
+    }
+};
+bool cmp(pair<pair<size_t, size_t>, int> & a,pair<pair<size_t, size_t>, int> & b){
+        return a.second < b.second;
+    }
+
+int main(void)
+{
+    size_t n;
+    int m;
+    size_t a, b;
+    int k=1;
+
+    unordered_map<size_t, int> addins;
+    unordered_map<int, size_t> pairOf;
+    cin >> n >> m;
+    disjointSets sets = disjointSets(n);
+    for(int i=0;i<m;++i){
+        cin >> a >> b;
+        if(!sets.merge(a-1, b-1)){
+            addins[sets.find(a-1)]++;
+            pairOf[k] = a-1;
+        }
+        k++;
+    }
+    int q, x;
+    cin >> q;
+    int nb = sets.nbrOfSets();
+    for(int i=0;i<q;++i){
+        cin >> x;
+        size_t par = sets.find(pairOf[x]);
+        if(addins[par]){
+            addins[par]--;
+        }else{
+            nb++;
+        }
+        cout << nb <<" ";
+    }
+
+
+    return 0;
+}
