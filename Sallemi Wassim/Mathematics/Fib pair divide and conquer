@@ -1,0 +1,23 @@
+pair<u128, u128> fibPairDiv(u64 n){
+    u64 k;
+    if(n==1llu){
+        return mp(1llu, 0llu);
+    }
+    if(n==0llu){
+        return mp(0llu, 1llu);
+    }
+    if(n&1llu){
+        k = (n+1)>>1llu;
+        pair<u64, u64> p = fibPairDiv(k-1llu);
+        u128 x1 = p.second; // fn-2
+        u128 x2 = p.first ; // fn-1
+        u128 x3 = x1 + x2;  // fn
+        return mp(x3*x3 + x2*x2, ((x1<<1llu)+x2)*x2);
+    }else{
+        k = n>>1llu;
+        pair<u64, u64> p = fibPairDiv(k);
+        u128 x1 = p.second; // fn-1
+        u128 x2 = p.first ; // fn
+        return mp(((x1<<1llu)+x2)*x2, x2*x2 + x1*x1);
+    }
+}
