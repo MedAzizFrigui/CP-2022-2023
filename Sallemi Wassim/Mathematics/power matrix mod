@@ -1,0 +1,24 @@
+vector<vector<u64>> mulMatMod(vector<vector<u64>> a, vector<vector<u64>> b, u64 p){
+    vector<vector<u64>> c  ={{0, 0}, {0, 0}} ;
+    for(int i=0;i<2;++i){
+        for(int j=0;j<2;++j){
+            for(int k=0;k<2;++k){
+                c[i][j] += ((u128)a[i][k] * b[k][j]) % p;
+                c[i][j] %= p;
+            }
+        }
+    }
+    return c;
+}
+
+vector<vector<u64>> powMatMod(vector<vector<u64>> a, u64 n, u64 p){
+    vector<vector<u64>> res={{1, 0}, {0, 1}};
+    while(n){
+        if(n&1){
+             res = mulMatMod(res, a, p);
+        }
+        n >>= 1;
+        a = mulMatMod(a, a, p);
+    }
+    return res;
+}
