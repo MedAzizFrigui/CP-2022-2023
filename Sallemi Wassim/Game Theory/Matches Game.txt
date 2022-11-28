@@ -1,0 +1,35 @@
+#include <bits/stdc++.h>
+
+#define unsigned ll long long
+#define min(u,v)(((u)<(v)) ? (u) : (v))
+#define max(u,v)(((u)>(v)) ? (u) : (v))
+#define mp make_pair
+#define endl '\n'
+#define pb push_back
+#define fast ios_base::sync_with_stdio(false); cin.tie(nullptr);
+
+using namespace std;
+using u64 = uint64_t;
+using u128 = uintmax_t;
+const size_t N = int(1e5)+1;
+
+
+int main(void){
+    int m, t;
+    cin >> t;
+    while(t--){
+        cin >> m;
+        int x, y=0;
+        for(int i=0; i<m; i++){
+            cin >> x;
+            y ^= x;
+        }
+        if(y){
+            cout << "YES";
+        }else{
+            cout << "NO";
+        }
+    }
+    return 0;
+}
+
