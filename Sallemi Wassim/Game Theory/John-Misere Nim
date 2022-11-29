@@ -27,12 +27,24 @@ int main(void){
             }
             y ^= x;
         }
-
-        if((!y && foundOne) || (y==1 && !foundOne)){
-            cout << "Brother"<<endl;
+        // Edge case
+        if(!foundOne){
+            if(n&1){
+                cout << "Brother"<<endl; // nb impair de uns : deuxieme
+            }else{
+                cout << "John"<<endl;
+            }
         }else{
-            cout << "John"<<endl;
+            if(!y){
+                cout << "Brother"<<endl; // if one number is bigger than one normal nim
+            }else{
+                cout << "John"<<endl;
+            }
         }
+
+
     }
     return 0;
 }
+
+
