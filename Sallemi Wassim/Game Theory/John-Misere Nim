@@ -1,0 +1,38 @@
+#include <iostream>
+//#define ll long long
+//#define min(u,v)(((u)<(v)) ? (u) : (v))
+//#define max(u,v)(((u)>(v)) ? (u) : (v))
+//#define mp make_pair
+//#define endl '\n'
+//#define pb push_back
+//#define fast ios_base::sync_with_stdio(false); cin.tie(nullptr);
+//
+//using u64 = uint64_t;
+//using u128 = uintmax_t;
+//const size_t N = int(1e5)+1;
+
+using namespace std;
+
+int main(void){
+    int t, n;
+    cin >> t;
+    while(t--){
+        bool foundOne = false;
+        cin >> n;
+        int x, y=0;
+        for(int i=0; i<n; ++i){
+            cin >> x;
+            if(x>1){
+                foundOne = true;
+            }
+            y ^= x;
+        }
+
+        if((!y && foundOne) || (y==1 && !foundOne)){
+            cout << "Brother"<<endl;
+        }else{
+            cout << "John"<<endl;
+        }
+    }
+    return 0;
+}
