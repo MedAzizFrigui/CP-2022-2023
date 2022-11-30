@@ -14,14 +14,14 @@ public:
 		}
 	}
 
-	size_t find_set(size_t v){
-		return parent[v]==v?v:parent[v]=find_set(parent[v]);
+	size_t finds(size_t v){
+		return parent[v]==v?v:parent[v]=finds(parent[v]);
 	}
 
-	bool union_sets(size_t a, size_t b){
+	bool merge(size_t a, size_t b){
 
-		a=find_set(a);
-		b=find_set(b);
+		a=finds(a);
+		b=finds(b);
 
 		if(a!=b){
 			if(sz[a]>sz[b]) swap(a,b);
@@ -35,11 +35,11 @@ public:
 	}
 
 	size_t sizeOfSets(size_t v){
-		return sz[find_set(v)];
+		return sz[finds(v)];
 	}
 
 	bool sameSet(size_t a, size_t b){
-		return find_set(a)==find_set(b);
+		return finds(a)==finds(b);
 	}
 
 	size_t nbrOfSets(){
@@ -63,14 +63,14 @@ public:
 		}
 	}
 
-	size_t find_set(size_t v){
-		return parent[v]==v?v:parent[v]=find_set(parent[v]);
+	size_t finds(size_t v){
+		return parent[v]==v?v:parent[v]=finds(parent[v]);
 	}
 
-	bool union_sets(size_t a, size_t b){
+	bool merge(size_t a, size_t b){
 
-		a=find_set(a);
-		b=find_set(b);
+		a=finds(a);
+		b=finds(b);
 
 		if(a!=b){
 			if(sz[a]>sz[b]) swap(a,b);
@@ -84,11 +84,11 @@ public:
 	}
 
 	size_t sizeOfSets(size_t v){
-		return sz[find_set(v)];
+		return sz[finds(v)];
 	}
 
 	bool sameSet(size_t a, size_t b){
-		return find_set(a)==find_set(b);
+		return finds(a)==finds(b);
 	}
 
 	size_t nbrOfSets(){
