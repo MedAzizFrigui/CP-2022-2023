@@ -1,0 +1,59 @@
+
+#include <vector>
+#include <iostream>
+#include <limits>
+
+#define ll long long
+#define min(u,v)(((u)<(v)) ? (u) : (v))
+#define max(u,v)(((u)>(v)) ? (u) : (v))
+#define mp make_pair
+#define endl '\n'
+#define pb push_back
+#define fast ios_base::sync_with_stdio(false); cin.tie(nullptr);
+
+using namespace std;
+using u64 = uint64_t;
+
+const int N = 1e6+1;
+const double EPS = numeric_limits<double>::epsilon();
+const double pi = 3.14159265358979323846;
+
+int isPrime[N];
+vector<int> primes;
+
+
+
+void sieve(int limit){
+    fill_n(isPrime, sizeof(isPrime)/sizeof(int), 1);
+    for(int i=2; i<limit; ++i){
+        if(isPrime[i]){
+            for(int j=2*i; j<=limit; j+=i){
+                isPrime[j] = 0;
+            }
+        }
+    }
+    for(int i=2; i<limit; ++i){
+        if(isPrime[i]){
+            primes.pb(i);
+        }
+    }
+}
+
+int main(void){
+    sieve(N-1);
+    int n;
+    while(true){
+        cin >> n;
+        if(!n){
+            break;
+        }
+        for(auto x: primes){
+            if(isPrime[n-x]){
+                cout << n <<" = "<<x <<" + "<<n-x<<endl;
+                break;
+            }
+        }
+    }
+    return 0;
+}
+
