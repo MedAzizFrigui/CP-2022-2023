@@ -1,0 +1,124 @@
+#include <vector>
+#include <iostream>
+#include <iomanip>
+#include <limits>
+#include <cmath>
+
+#define ll long long
+#define min(u,v)(((u)<(v)) ? (u) : (v))
+#define max(u,v)(((u)>(v)) ? (u) : (v))
+#define mp make_pair
+#define endl '\n'
+#define pb push_back
+#define fast ios_base::sync_with_stdio(false); cin.tie(nullptr);
+
+using namespace std;
+using u64 = uint64_t;
+
+const int N = 1e6+1;
+const double EPS = numeric_limits<double>::epsilon();
+const double pi = 3.14159265358979323846;
+
+
+
+
+
+
+//GEOMETRY
+
+void representVector(vector<double> v){
+    for(auto x:v){
+        cout << x<<" ";
+    }
+}
+
+vector<double> milieu(vector<double> a, vector<double> b){
+    vector<double> v = {(a[0]+b[0])/2, (a[1]+b[1])/2};
+    return v;
+}
+
+vector<double> equationDroite(vector<double> v1, vector<double> v2){
+    double a = v1[1]-v2[1];
+    double b = v2[0]-v1[0] ;
+    double c = -b*v1[1] - a*v1[0];
+    vector<double> v={a, b, c};
+    return v;
+}
+
+double dist(vector<double> x, vector<double> y){
+    double d = sqrt((x[0]-y[0]) * (x[0]-y[0]) +
+                (x[1]-y[1]) * (x[1]-y[1]));
+    return d;
+}
+
+vector<double> rotateVector(vector<double> v, double angle){
+    double x = v[0]*cos(angle) - v[1]*sin(angle);
+    double y = v[0]*sin(angle) + v[1]*cos(angle);
+    vector<double> v1 = {x, y};
+    return v1;
+}
+
+vector<double> intersection(vector<double> x, vector<double> y){
+    double a=x[0], b=x[1], c=x[2], d=y[0], e=y[1], f=y[2];
+    if(abs(a*e-b*d)<EPS){
+        vector<double> v;
+        cout << "hammadi";
+        return v;
+    }
+    double det = 1/(a*e-b*d);
+    double x1 = det * (f*b-c*e);
+    double x2 = det * (c*d-f*a);
+    vector<double> v={x1, x2};
+    return v;
+}
+
+double triangleSurface(vector<double> a, vector<double> b, vector<double> c){
+    vector<double> ba = {b[0]-a[0], b[1]-a[1]};
+    vector<double> ca = {c[0]-a[0], c[1]-a[1]};
+    return abs(ba[0]*ca[1] - ba[1]*ca[0])/2.0;
+}
+
+vector<double> mediatrice(vector<double> a, vector<double> b){
+    vector<double> ab = equationDroite(a, b);
+    vector<double> medab = {-ab[1], ab[0], 0};
+    vector<double> milab = milieu(a, b);
+    medab[2] = -medab[0]*milab[0] - medab[1]*milab[1];
+    return medab;
+}
+
+vector<double> circonscrit(vector<double> a, vector<double> b, vector<double> c){
+    vector<double> medab = mediatrice(a, b);
+    vector<double> medbc = mediatrice(b, c);
+    return intersection(medab, medbc);
+}
+
+
+
+// MATHEMATICS
+
+//void sieve(int limit){
+//    fill_n(isPrime, sizeof(isPrime)/sizeof(int), 1);
+//    for(int i=2; i<limit; ++i){
+//        if(isPrime[i]){
+//            for(int j=2*i; j<=limit; j+=i){
+//                isPrime[j] = 0;
+//            }
+//        }
+//    }
+//    for(int i=2; i<limit; ++i){
+//        if(isPrime[i]){
+//            primes.pb(i);
+//        }
+//    }
+//}
+
+int main(void){
+    double x1, y1, x2, y2, x3, y3;
+    while(cin >> x1){
+        cin >> y1>>x2>>y2>>x3>>y3;
+        vector<double> a1={x1, y1}, a2={x2, y2}, a3={x3, y3};
+        vector<double> ac = circonscrit(a1, a2, a3);
+        cout << fixed <<setprecision(2)<<dist(ac, a1)*2*pi<<endl;
+    }
+    return 0;
+}
