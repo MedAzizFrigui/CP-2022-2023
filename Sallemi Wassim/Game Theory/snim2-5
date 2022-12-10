@@ -1,0 +1,60 @@
+
+#include <vector>
+#include <iostream>
+#include <iomanip>
+#include <limits>
+#include <cmath>
+
+#define ll long long
+#define min(u,v)(((u)<(v)) ? (u) : (v))
+#define max(u,v)(((u)>(v)) ? (u) : (v))
+#define mp make_pair
+#define endl '\n'
+#define pb push_back
+#define fast ios_base::sync_with_stdio(false); cin.tie(nullptr);
+
+using namespace std;
+using u64 = uint64_t;
+
+const int N = 1e6+1;
+const double EPS = numeric_limits<double>::epsilon();
+const double pi = 3.14159265358979323846;
+
+
+
+int main(void){
+    int N1 = 15;
+    int t;
+    cin >>t;
+    while(t--){
+        int a[N1+1], j=1;
+        a[0] = 0;a[1]=0; a[2]=1;a[3]=2;
+        a[4]=0;
+        for(int i=5; i<=N1; ++i){
+            if(!a[i-5] || !a[i-2]){
+                a[i] = j++;
+            }else{
+                a[i] = 0;
+                j=1;
+            }
+        }
+        for(auto x:a){
+            cout << x<<" ";
+        }
+        int grundy = 0, q;
+        cin >> q;
+        for(int i=0; i<q; ++i){
+            int h;
+            cin >> h;
+            grundy ^= a[h];
+        }
+        if(grundy){
+            cout << 'W';
+        }else{
+            cout << 'L';
+        }
+    }
+    cout<<endl;
+
+    return 0;
+}
