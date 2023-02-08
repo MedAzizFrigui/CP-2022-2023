@@ -1,0 +1,102 @@
+#include <iostream>
+#include <algorithm>
+#include <vector>
+
+using namespace std;
+
+vector<int> ans; //lcs ans
+vector<int> ans1;
+
+int lcs(int s1[], int s2[], int n, int m){
+    int dp[n+1][m+1];
+    for(int i=0; i<=n; ++i){
+        dp[i][0] = 0;
+    }
+    for(int j=0; j<=m; ++j){
+        dp[0][j] = 0;
+    }
+    for(int i=1; i<=n; ++i){
+        for(int j=1; j<=m; ++j){
+            if(s1[i-1] == s2[j-1]){
+                dp[i][j] = dp[i-1][j-1] + 1;
+            }else{
+                dp[i][j] = max(dp[i-1][j], dp[i][j-1]);
+            }
+        }
+    }
+    int i=n, j=m;
+    int len = dp[n][m];
+    while(i!=0 && j!=0){
+        if(s1[i-1] == s2[j-1]){
+            ans.push_back(s1[i-1]);
+            --i; --j;
+        }else if(dp[i-1][j] > dp[i][j-1]){
+            --i;
+        }else{
+            --j;
+        }
+    }
+    reverse(ans.begin(), ans.end());
+    return len;
+}
+
+int lis(int len){
+    int dp[len];
+    dp[0] = 1;
+    for(int i=1; i<len; ++i){
+        dp[i] = 1;
+        bool found = false;
+        for(int j=0; j<i; ++j){
+            if(ans[j] < ans[i]){
+                found = true;
+                dp[i] = max(dp[i], 1+dp[j]);
+            }
+        }
+        if(!found){
+            dp[i] = 1;
+        }
+    }
+    int mx = *max_element(dp, dp+len);
+    int i = find(dp, dp+len, mx) - dp;
+    len = mx;
+    ans1.push_back(ans[i]);
+    int index;
+    while(i!=0){
+        bool found = false;
+        for(int j=0; j<i; ++j){
+            index = 0;
+            if(dp[j] >= dp[index]){
+                index = j;
+                found = true;
+            }
+        }
+        i = index;
+        if(found){
+            ans1.push_back(ans[i]);
+        }
+    }
+    reverse(ans1.begin(), ans1.end());
+    return len;
+}
+
+int main(void) {
+    int n, m;
+    cin >> n;
+    int a[n];
+    for(int i=0; i<n; ++i){
+        cin >> a[i];
+    }
+    cin >> m;
+    int b[m];
+    for(int i=0; i<m; ++i){
+        cin >> b[i];
+    }
+    int len = lcs(a, b, n, m);
+    len = lis(len);
+    cout << len<<endl;
+    for(int i=0; i<len; ++i){
+        cout << ans1[i]<<" ";
+    }
+    return 0;
+}
+
