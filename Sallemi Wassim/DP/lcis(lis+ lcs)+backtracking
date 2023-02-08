@@ -1,0 +1,88 @@
+#include <iostream>
+#include <algorithm>
+using namespace std;
+
+string lcs(string s1, string s2){
+    string ans;
+    int n = s1.size();
+    int m = s2.size();
+    int dp[n+1][m+1];
+    for(int i=0; i<=n; ++i){
+        dp[i][0] = 0;
+    }
+    for(int j=0; j<=m; ++j){
+        dp[0][j] = 0;
+    }
+    for(int i=1; i<=n; ++i){
+        for(int j=1; j<=m; ++j){
+            if(s1[i-1] == s2[j-1]){
+                dp[i][j] = dp[i-1][j-1] + 1;
+            }else{
+                dp[i][j] = max(dp[i-1][j], dp[i][j-1]);
+            }
+        }
+    }
+    int i=n, j=m;
+    while(i!=0 || j!=0){
+        if(s1[i-1] == s2[j-1]){
+            ans += s1[i-1];
+            --i; --j;
+        }else if(dp[i-1][j] > dp[i][j-1]){
+            --i;
+        }else{
+            --j;
+        }
+    }
+    reverse(ans.begin(), ans.end());
+    return ans;
+}
+
+string lis(string s){
+    string ans;
+    int n = s.size();
+    int dp[n];
+    dp[0] = 1;
+    for(int i=1; i<n; ++i){
+        dp[i] = 1;
+        bool found = false;
+        for(int j=0; j<i; ++j){
+            if(s[j] < s[i]){
+                found = true;
+                dp[i] = max(dp[i], 1+dp[j]);
+            }
+        }
+        if(!found){
+            dp[i] = 1;
+        }
+    }
+    int mx = *max_element(dp, dp+n);
+    int i = find(dp, dp+n, mx) - dp;
+    ans += s[i];
+    int index;
+    while(i!=0){
+        bool found = false;
+        for(int j=0; j<i; ++j){
+            index = 0;
+            if(dp[j] >= dp[index]){
+                index = j;
+                found = true;
+            }
+        }
+        i = index;
+        if(found){
+            ans += s[i];
+        }
+    }
+    reverse(ans.begin(), ans.end());
+    return ans;
+}
+
+int main(void) {
+    string s1, s2;
+    cin >> s1 >> s2;
+    string ans = lcs(s1, s2);
+    ans = lis(ans);
+    cout << ans;
+    return 0;
+}
+
